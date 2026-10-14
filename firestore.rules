@@ -1,0 +1,67 @@
+rules_version = '2';
+
+// Règles de sécurité Firestore — CMCI Ngaoundéré
+// Public : lit le contenu du site (pasteurs, centres, livres, programme, coordonnées).
+// Fidèle connecté : gère son profil, envoie et suit ses propres demandes.
+// Administrateur (document roles/{uid} avec role == "admin") : gère tout.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/roles/$(request.auth.uid))
+        && get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ---------- Contenu public du site ----------
+    match /config/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /pasteurs/{id}   { allow read: if true; allow write: if isAdmin(); }
+    match /centres/{id}    { allow read: if true; allow write: if isAdmin(); }
+    match /livres/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /programme/{id}  { allow read: if true; allow write: if isAdmin(); }
+    match /departements/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /localites/{id}  { allow read: if true; allow write: if isAdmin(); }
+
+    // Articles et annonces : le public ne lit que ce qui est publié (requête avec publie == true).
+    match /articles/{id} {
+      allow read: if resource.data.publie == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ---------- Comptes ----------
+    match /roles/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
+    }
+    match /profils/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['nom', 'tel', 'quartier', 'centre', 'email', 'cree', 'maj']);
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Demandes : rendez-vous, inscriptions, commandes de livres ----------
+    match /demandes/{id} {
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.statut == 'en_attente'
+        && request.resource.data.type in ['rdv', 'inscription', 'commande']
+        && request.resource.data.nom is string && request.resource.data.nom.size() > 1
+        && request.resource.data.tel is string && request.resource.data.tel.size() >= 8;
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      // Le fidèle peut seulement annuler sa propre demande encore en attente.
+      allow update: if isAdmin() || (signedIn()
+        && resource.data.uid == request.auth.uid
+        && resource.data.statut == 'en_attente'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['statut', 'maj'])
+        && request.resource.data.statut == 'annule');
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Registres internes : administration uniquement ----------
+    match /membres/{id}  { allow read, write: if isAdmin(); }
+    match /biens/{id}    { allow read, write: if isAdmin(); }
+    match /finances/{id} { allow read, write: if isAdmin(); }
+  }
+}

@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Palette « plateau de l'Adamaoua » : vert profond des collines, or des savanes, fond vert très clair. */
+:root {
+  --bg: 244 246 241; --surface: 255 255 255; --surface-2: 235 239 231;
+  --ink: 23 34 27; --muted: 88 102 92; --line: 215 222 210;
+  --green: 30 77 54; --green-2: 44 106 75; --on-green: 255 255 255;
+  --band: 22 58 41; --band-ink: 238 243 236; --band-muted: 185 203 190;
+  --gold: 168 122 34; --gold-soft: 243 232 207; --sun: 226 182 92;
+  --ok: 46 125 79; --ok-soft: 225 241 230; --warn: 163 106 16; --warn-soft: 251 239 216;
+  --bad: 178 58 58; --bad-soft: 248 225 224;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: 14 21 17; --surface: 22 32 26; --surface-2: 28 40 33;
+    --ink: 231 237 230; --muted: 156 170 160; --line: 42 55 47;
+    --green: 124 196 156; --green-2: 149 211 175; --on-green: 14 21 17;
+    --band: 16 41 29; --band-ink: 238 243 236; --band-muted: 169 191 175;
+    --gold: 226 182 92; --gold-soft: 58 47 24; --sun: 226 182 92;
+    --ok: 124 196 156; --ok-soft: 24 51 36; --warn: 229 176 78; --warn-soft: 58 44 18;
+    --bad: 238 138 132; --bad-soft: 61 27 26;
+    color-scheme: dark;
+  }
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body { @apply bg-bg text-ink font-sans antialiased; font-size: 15px; line-height: 1.55; }
+h1, h2, h3 { @apply font-display font-normal; text-wrap: balance; line-height: 1.15; }
+:focus-visible { outline: 2px solid rgb(var(--sun)); outline-offset: 2px; }
+a { color: rgb(var(--green)); }
+
+@layer components {
+  .page { @apply mx-auto w-full max-w-page px-4 sm:px-6; }
+  .eyebrow { @apply text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-gold; }
+  .h2 { @apply text-[1.65rem] sm:text-[2.1rem]; }
+  .panel { @apply min-w-0 rounded-xl border border-line bg-surface p-5 sm:p-6; }
+  .btn { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-transparent bg-green px-4 py-2.5 text-sm font-semibold leading-tight text-on-green no-underline transition-colors hover:bg-green-2 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-ghost { @apply btn border-line bg-transparent text-green hover:bg-surface-2; }
+  .btn-gold { @apply btn bg-sun text-[#1B140A] hover:bg-sun/90; }
+  .btn-band { @apply btn border-white/30 bg-transparent text-band-ink hover:bg-white/10; }
+  .btn-danger { @apply btn bg-bad text-white hover:bg-bad/90; }
+  .btn-sm { @apply px-2.5 py-1.5 text-xs; }
+  .field { @apply grid gap-1.5 text-[0.84rem] font-semibold; }
+  .field .hint { @apply font-normal text-muted text-[0.78rem]; }
+  .input { @apply w-full min-w-0 rounded-lg border border-line bg-surface px-3 py-2 text-[0.95rem] font-normal text-ink outline-none focus:border-transparent focus:ring-2 focus:ring-green; }
+  .badge { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-surface-2 px-2 py-0.5 text-[0.72rem] font-semibold text-muted before:h-1.5 before:w-1.5 before:rounded-full before:bg-current before:content-['']; }
+  .badge-ok { @apply bg-ok-soft text-ok; }
+  .badge-warn { @apply bg-warn-soft text-warn; }
+  .badge-bad { @apply bg-bad-soft text-bad; }
+  .badge-gold { @apply bg-gold-soft text-gold; }
+  .tile { @apply grid min-w-0 gap-1 rounded-xl border border-line bg-surface p-4; }
+  .tile-v { @apply font-mono text-[1.4rem] font-medium tabular-nums [overflow-wrap:anywhere]; }
+  .tbl { @apply w-full border-collapse text-[0.88rem]; }
+  .tbl th { @apply whitespace-nowrap border-b border-line bg-surface-2 px-3.5 py-2.5 text-left text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-muted; }
+  .tbl td { @apply border-b border-line px-3.5 py-2.5 align-top; }
+  .tbl tr:last-child td { @apply border-b-0; }
+  .tbl .num { @apply whitespace-nowrap text-right font-mono tabular-nums; }
+  .tbl-box { @apply overflow-x-auto rounded-xl border border-line bg-surface; }
+  .notice { @apply flex flex-wrap items-center justify-between gap-3 rounded-lg bg-gold-soft px-4 py-3 text-[0.88rem]; }
+  .empty { @apply grid justify-items-center gap-1.5 rounded-xl border border-dashed border-line p-7 text-center text-muted; }
+}
+
+/* Carte Leaflet */
+.leaflet-container { font-family: inherit; background: rgb(var(--surface-2)); border-radius: 12px; }
+.cmci-pin { width: 22px; height: 22px; border-radius: 50%; background: rgb(var(--green)); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); display: grid; place-items: center; }
+.cmci-pin::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #E2B65C; }
+.cmci-pin.sel { width: 28px; height: 28px; outline: 3px solid #E2B65C; }
+.cmci-label { background: rgb(var(--surface)); color: rgb(var(--ink)); border: 1px solid rgb(var(--line)); font-weight: 600; box-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+.cmci-pin.loc { background: rgb(var(--sun)); }
+.cmci-pin.loc::after { background: #163A29; }

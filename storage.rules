@@ -1,0 +1,19 @@
+rules_version = '2';
+
+// Photos des pasteurs, des centres et couvertures de livres.
+// Lecture publique, envoi réservé aux administrateurs (images de 5 Mo maximum).
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAdmin() {
+      return request.auth != null
+        && firestore.get(/databases/(default)/documents/roles/$(request.auth.uid)).data.role == 'admin';
+    }
+    match /public/{folder}/{file} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if isAdmin();
+    }
+  }
+}
