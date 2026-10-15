@@ -1,9 +1,15 @@
-export default function Logo({ size = 40 }: { size?: number }) {
+/* eslint-disable @next/next/no-img-element */
+/** Logo officiel de la CMCI, dans une pastille blanche pour rester lisible sur le bandeau bleu. */
+export default function Logo({ size = 40, plain = false }: { size?: number; plain?: boolean }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 44 44" aria-hidden="true" className="flex-none">
-      <circle cx="22" cy="22" r="20.5" fill="none" stroke="#E2B65C" strokeWidth="1.5" />
-      <path d="M22 9v26M14 17h16" stroke="#EEF3EC" strokeWidth="2.6" strokeLinecap="round" />
-      <path d="M6 29c5-3 9-3 13 0s9 3 13 0 6-2 6-2" fill="none" stroke="#E2B65C" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
+    <img
+      src={plain ? "/logo-cmci.png" : "/logo-badge.png"}
+      alt="CMCI"
+      width={size}
+      height={size}
+      className="flex-none select-none"
+      style={{ width: size, height: size }}
+      draggable={false}
+    />
   );
 }

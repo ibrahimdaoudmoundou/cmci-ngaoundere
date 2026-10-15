@@ -27,7 +27,7 @@ export default function ArticlePage() {
         {a.image && <img src={a.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" onError={(e) => (e.currentTarget.style.display = "none")} />}
         <div className="page relative grid max-w-[820px] gap-4 pb-12 pt-10">
           <Link href="/actualites" className="text-sm text-band-muted no-underline">← {L("Actualités", "News")}</Link>
-          <span className="w-fit rounded-full bg-sun px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wider text-[#1B140A]">{a.type === "annonce" ? L("Annonce", "Announcement") : "Article"}</span>
+          <span className="w-fit rounded-full bg-sun px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wider text-[#052D5C]">{a.type === "annonce" ? L("Annonce", "Announcement") : "Article"}</span>
           <h1 className="text-[2rem] leading-tight sm:text-[2.8rem]">{tr(a, "titre")}</h1>
           <p className="font-mono text-sm text-band-muted">{fmonth(a.date, locale)}{a.auteur ? ` · ${a.auteur}` : ""}</p>
         </div>

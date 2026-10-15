@@ -49,17 +49,17 @@ export default function Accueil() {
       <section className="relative overflow-hidden bg-band text-band-ink">
         <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" preserveAspectRatio="xMidYMin slice" viewBox="0 0 1200 600">
           <defs>
-            <radialGradient id="glow" cx="0.72" cy="-0.05" r="0.75"><stop offset="0" stopColor="#E2B65C" stopOpacity=".38" /><stop offset=".55" stopColor="#E2B65C" stopOpacity=".05" /><stop offset="1" stopColor="#E2B65C" stopOpacity="0" /></radialGradient>
+            <radialGradient id="glow" cx="0.72" cy="-0.05" r="0.75"><stop offset="0" stopColor="#5CCBF5" stopOpacity=".38" /><stop offset=".55" stopColor="#5CCBF5" stopOpacity=".05" /><stop offset="1" stopColor="#5CCBF5" stopOpacity="0" /></radialGradient>
           </defs>
           <rect width="1200" height="600" fill="url(#glow)" />
-          {Array.from({ length: 14 }, (_, i) => <line key={i} x1="860" y1="-20" x2={360 + i * 70} y2="640" stroke="#E2B65C" strokeOpacity=".07" strokeWidth="1.2" />)}
-          <path d="M0 520 C 180 470 330 500 470 470 S 760 420 900 455 1100 430 1200 445 V600 H0Z" fill="#0F2C1F" opacity=".55" />
-          <path d="M0 560 C 220 530 380 555 560 528 S 900 505 1200 530 V600 H0Z" fill="#0C2418" opacity=".7" />
+          {Array.from({ length: 14 }, (_, i) => <line key={i} x1="860" y1="-20" x2={360 + i * 70} y2="640" stroke="#5CCBF5" strokeOpacity=".07" strokeWidth="1.2" />)}
+          <path d="M0 520 C 180 470 330 500 470 470 S 760 420 900 455 1100 430 1200 445 V600 H0Z" fill="#04244A" opacity=".55" />
+          <path d="M0 560 C 220 530 380 555 560 528 S 900 505 1200 530 V600 H0Z" fill="#031B38" opacity=".7" />
         </svg>
         <div className="page relative grid items-end gap-8 pb-14 pt-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           <div>
             <div className="flex flex-wrap items-center gap-3 text-[0.78rem] uppercase tracking-[0.12em] text-band-muted">
-              <Logo size={30} /> Ngaoundéré · Adamaoua · {L("Cameroun", "Cameroon")}
+              <Logo size={64} /> Ngaoundéré · Adamaoua · {L("Cameroun", "Cameroon")}
             </div>
             <h1 className="mt-6 text-[2.2rem] leading-[1.08] tracking-[0.01em] sm:text-[3.5rem]">
               {en ? <>Christian Missionary<br />Fellowship <span className="text-sun">International</span></> : <>Communauté Missionnaire<br />Chrétienne <span className="text-sun">Internationale</span></>}

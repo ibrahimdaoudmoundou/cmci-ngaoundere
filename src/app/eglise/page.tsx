@@ -52,7 +52,7 @@ export default function Eglise() {
         </section>
 
         <section className="grid items-center gap-8 rounded-2xl border border-line bg-surface p-6 sm:p-10 md:grid-cols-[auto_minmax(0,1fr)]">
-          <div className="grid h-28 w-28 place-items-center rounded-full bg-band"><Logo size={72} /></div>
+          <Logo size={128} />
           <div className="grid gap-3">
             <div className="eyebrow">{L("La CMCI dans le monde", "CMFI worldwide")}</div>
             <h2 className="h2">{L("Membre d'une communauté missionnaire internationale", "Part of an international missionary fellowship")}</h2>

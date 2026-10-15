@@ -40,7 +40,7 @@ export default function Header() {
             <div className="flex overflow-hidden rounded-full border border-white/30 text-xs font-semibold" role="group" aria-label="Langue / Language">
               {(["fr", "en"] as const).map((l) => (
                 <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l}
-                  className={`px-2.5 py-1.5 uppercase ${lang === l ? "bg-sun text-[#1B140A]" : "text-band-ink hover:bg-white/10"}`}>{l}</button>
+                  className={`px-2.5 py-1.5 uppercase ${lang === l ? "bg-sun text-[#052D5C]" : "text-band-ink hover:bg-white/10"}`}>{l}</button>
               ))}
             </div>
             <Link href={user ? "/mon-espace" : "/connexion"} className="btn-band btn-sm">

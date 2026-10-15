@@ -9,9 +9,10 @@ export const metadata: Metadata = {
   title: { default: "CMCI Ngaoundéré", template: "%s · CMCI Ngaoundéré" },
   description:
     "Communauté Missionnaire Chrétienne Internationale à Ngaoundéré : pasteurs, centres de quartier, programme, librairie et rendez-vous en ligne.",
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: [{ url: "/icon-32.png", sizes: "32x32" }, { url: "/icon-192.png", sizes: "192x192" }], apple: "/icon-180.png" },
+  openGraph: { images: ["/logo-badge.png"] },
 };
-export const viewport: Viewport = { themeColor: "#163A29", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#052D5C", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
