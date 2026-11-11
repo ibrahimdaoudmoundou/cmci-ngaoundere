@@ -112,3 +112,28 @@ storage.rules         règles des images (si Storage activé)
 ```
 
 Commandes utiles : `npm run dev` (développement), `npm run build` (vérifier avant de publier), `npm run deploy:rules` (publier les règles avec l'outil `firebase-tools`, facultatif).
+
+## Connexion avec IBKEYS (compte unique IBTech)
+
+Le site accepte trois façons de se connecter : e-mail/mot de passe, Google, et **IBKEYS** (Keycloak, realm `ibkeys`).
+
+**Fonctionnement**
+1. Le bouton « Se connecter avec IBKEYS » (page `/connexion`) lance une connexion OpenID Connect (code d'autorisation + PKCE) avec l'application IBKEYS `cmci-ngaoundere` (client public, aucun secret).
+2. IBKEYS renvoie vers `/connexion/ibkeys`, qui transmet le code à la route serveur `/api/auth/ibkeys`.
+3. Cette route échange le code auprès d'IBKEYS, vérifie le jeton (signature JWKS, émetteur, `azp`, expiration), puis émet un **jeton personnalisé Firebase** (uid `ibkeys:<sub>`) portant les rôles IBKEYS.
+4. Les règles Firestore lisent ces rôles :
+
+| Rôle IBKEYS | Accès dans « Gestion » |
+|---|---|
+| `ADMIN` | Tout, y compris la liste des administrateurs |
+| `SECRETARIAT` | Demandes, articles et annonces, membres, départements, œuvre missionnaire, site et vision |
+| `TRESORERIE` | Finances, biens, stock de la librairie |
+
+Les rôles se donnent dans IBKEYS (groupe `cmci-ngaoundere`). Un changement de rôle s'applique à la connexion suivante. L'ancien mécanisme (document `roles/{uid}` avec `role: "admin"`) reste valable.
+
+**Activation (une seule fois)** : la route serveur a besoin d'une clé de compte de service Firebase.
+1. Console Firebase → ⚙ *Paramètres du projet* → *Comptes de service* → **Générer une nouvelle clé privée** (un fichier JSON est téléchargé).
+2. Vercel → projet `cmci-ngaoundere` → *Settings* → *Environment Variables* → ajouter `FIREBASE_SERVICE_ACCOUNT` avec **tout le contenu du fichier JSON** (Production et Preview), puis *Redeploy*.
+3. Ne mettez jamais ce fichier sur GitHub et supprimez-le de votre ordinateur une fois copié.
+
+Sans cette variable, le bouton IBKEYS affiche « La connexion IBKEYS n'est pas encore activée » et les autres modes de connexion continuent de fonctionner.

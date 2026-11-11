@@ -1,32 +1,42 @@
 rules_version = '2';
 
 // Règles de sécurité Firestore — CMCI Ngaoundéré
-// Public : lit le contenu du site (pasteurs, centres, livres, programme, coordonnées).
+// Public : lit le contenu du site (pasteurs, centres, livres, programme, coordonnées…).
 // Fidèle connecté : gère son profil, envoie et suit ses propres demandes.
-// Administrateur (document roles/{uid} avec role == "admin") : gère tout.
+// Gestion :
+//   - ADMIN : tout. Soit document roles/{uid} avec role == "admin", soit rôle IBKEYS « ADMIN ».
+//   - SECRETARIAT (rôle IBKEYS) : demandes, membres, contenu du site, articles.
+//   - TRESORERIE (rôle IBKEYS) : finances, biens, stock de la librairie.
+// Les rôles IBKEYS arrivent dans le jeton Firebase (revendication « roles ») via /api/auth/ibkeys.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
-    function isAdmin() {
-      return signedIn()
-        && exists(/databases/$(database)/documents/roles/$(request.auth.uid))
-        && get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.role == 'admin';
+    function ibRoles() {
+      return signedIn() && ('roles' in request.auth.token) ? request.auth.token.roles : [];
     }
+    function isAdmin() {
+      return signedIn() && (
+        'ADMIN' in ibRoles()
+        || (exists(/databases/$(database)/documents/roles/$(request.auth.uid))
+            && get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.role == 'admin'));
+    }
+    function isSecretariat() { return isAdmin() || 'SECRETARIAT' in ibRoles(); }
+    function isTresorerie()  { return isAdmin() || 'TRESORERIE' in ibRoles(); }
 
     // ---------- Contenu public du site ----------
-    match /config/{id}     { allow read: if true; allow write: if isAdmin(); }
-    match /pasteurs/{id}   { allow read: if true; allow write: if isAdmin(); }
-    match /centres/{id}    { allow read: if true; allow write: if isAdmin(); }
-    match /livres/{id}     { allow read: if true; allow write: if isAdmin(); }
-    match /programme/{id}  { allow read: if true; allow write: if isAdmin(); }
-    match /departements/{id} { allow read: if true; allow write: if isAdmin(); }
-    match /localites/{id}  { allow read: if true; allow write: if isAdmin(); }
+    match /config/{id}       { allow read: if true; allow write: if isSecretariat(); }
+    match /pasteurs/{id}     { allow read: if true; allow write: if isSecretariat(); }
+    match /centres/{id}      { allow read: if true; allow write: if isSecretariat(); }
+    match /livres/{id}       { allow read: if true; allow write: if isSecretariat() || isTresorerie(); }
+    match /programme/{id}    { allow read: if true; allow write: if isSecretariat(); }
+    match /departements/{id} { allow read: if true; allow write: if isSecretariat(); }
+    match /localites/{id}    { allow read: if true; allow write: if isSecretariat(); }
 
     // Articles et annonces : le public ne lit que ce qui est publié (requête avec publie == true).
     match /articles/{id} {
-      allow read: if resource.data.publie == true || isAdmin();
-      allow write: if isAdmin();
+      allow read: if resource.data.publie == true || isSecretariat();
+      allow write: if isSecretariat();
     }
 
     // ---------- Comptes ----------
@@ -35,7 +45,7 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     match /profils/{uid} {
-      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow read: if signedIn() && (request.auth.uid == uid || isSecretariat());
       allow create, update: if signedIn() && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['nom', 'tel', 'quartier', 'centre', 'email', 'cree', 'maj']);
       allow delete: if isAdmin();
@@ -49,19 +59,24 @@ service cloud.firestore {
         && request.resource.data.type in ['rdv', 'inscription', 'commande']
         && request.resource.data.nom is string && request.resource.data.nom.size() > 1
         && request.resource.data.tel is string && request.resource.data.tel.size() >= 8;
-      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow read: if isSecretariat() || (signedIn() && resource.data.uid == request.auth.uid);
       // Le fidèle peut seulement annuler sa propre demande encore en attente.
-      allow update: if isAdmin() || (signedIn()
+      allow update: if isSecretariat() || (signedIn()
         && resource.data.uid == request.auth.uid
         && resource.data.statut == 'en_attente'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['statut', 'maj'])
         && request.resource.data.statut == 'annule');
-      allow delete: if isAdmin();
+      allow delete: if isSecretariat();
     }
 
-    // ---------- Registres internes : administration uniquement ----------
-    match /membres/{id}  { allow read, write: if isAdmin(); }
-    match /biens/{id}    { allow read, write: if isAdmin(); }
-    match /finances/{id} { allow read, write: if isAdmin(); }
+    // ---------- Registres internes ----------
+    match /membres/{id}  { allow read, write: if isSecretariat(); }
+    match /biens/{id}    { allow read, write: if isTresorerie(); }
+    match /finances/{id} {
+      allow read, update, delete: if isTresorerie();
+      // Le secrétariat enregistre une vente de livre en caisse quand il remet une commande.
+      allow create: if isTresorerie()
+        || (isSecretariat() && request.resource.data.categorie == 'Ventes librairie' && request.resource.data.type == 'entree');
+    }
   }
 }

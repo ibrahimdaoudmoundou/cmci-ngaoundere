@@ -7,6 +7,7 @@ import { telOk } from "@/lib/format";
 import { useCollection } from "@/lib/hooks";
 import type { Centre } from "@/lib/types";
 import { useLang } from "@/lib/i18n";
+import { startIbkeysLogin } from "@/lib/ibkeys";
 
 export default function Connexion() {
   const { user, login, register, google, resetPassword } = useAuth();
@@ -63,6 +64,12 @@ export default function Connexion() {
         </div>
         <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted"><span className="h-px flex-1 bg-line" />{L("ou", "or")}<span className="h-px flex-1 bg-line" /></div>
         <button type="button" className="btn-ghost" disabled={busy} onClick={() => run(google)}>{L("Continuer avec Google", "Continue with Google")}</button>
+        <button type="button" className="btn-ghost" disabled={busy} onClick={() => run(() => startIbkeysLogin(suite()))}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/ibkeys.svg" alt="" width={18} height={18} />
+          {L("Se connecter avec IBKEYS", "Sign in with IBKEYS")}
+        </button>
+        <p className="text-xs text-muted">{L("IBKEYS : compte unique IBTech, réservé aux responsables et à l'équipe de gestion.", "IBKEYS: single IBTech account, for leaders and the management team.")}</p>
         {err && <p role="alert" className="text-sm text-bad">{err}</p>}
         {info && <p className="text-sm text-ok">{info}</p>}
       </form>

@@ -7,7 +7,7 @@ import Logo from "./Logo";
 
 export default function Header() {
   const path = usePathname();
-  const { user, isAdmin, profil } = useAuth();
+  const { user, droits, profil } = useAuth();
   const { L, lang, setLang } = useLang();
   const links: [string, string][] = [
     ["/", L("Accueil", "Home")],
@@ -57,7 +57,7 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          {isAdmin && (
+          {droits.gestion && (
             <Link href="/admin" aria-current={active("/admin") ? "page" : undefined}
               className={`ml-auto whitespace-nowrap border-b-2 px-3 pb-3 pt-3.5 text-[0.9rem] font-semibold text-gold no-underline ${active("/admin") ? "border-sun" : "border-transparent"}`}>
               {L("Gestion", "Admin")}

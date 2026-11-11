@@ -108,6 +108,7 @@ function Admins() {
 }
 
 export default function Contenu() {
+  const { droits } = useAuth();
   const { pasteurs, centres, livres, programme } = useAdmin();
   const toast = useToast();
   const [busy, setBusy] = useState(false);
@@ -131,7 +132,7 @@ export default function Contenu() {
         ["Titre", (x) => <b className="font-semibold">{x.titre}</b>], ["Prix", (x) => <span className="font-mono">{fcfa(x.prix)}</span>], ["Stock", (x) => <span className="font-mono">{num(x.stock)}</span>], ["Affichage", (x) => (x.visible === false ? "Masqué" : "En vente")]]} />
       <Block title="Programme et activités" entity="programme" list={sortProgramme(programme, true)} cols={[
         ["Activité", (x) => <><b className="font-semibold">{x.titre}</b><ExampleBadge show={x.exemple} /></>], ["Quand", (x) => `${x.date ? fshort(x.date) : x.jour || ""} ${x.heure || ""}`], ["Lieu", (x) => x.lieu]]} />
-      <Admins />
+      {droits.admin && <Admins />}
     </div>
   );
 }
