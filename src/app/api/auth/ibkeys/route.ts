@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createRemoteJWKSet, jwtVerify } from "jose";
-import { adminAuth, adminConfigured } from "@/lib/firebase-admin";
+import { adminConfigured, createCustomToken } from "@/lib/firebase-admin";
 import { IBKEYS, IBKEYS_ROLES } from "@/lib/ibkeys";
 
 export const runtime = "nodejs";
@@ -68,17 +68,10 @@ export async function POST(req: Request) {
 
   // 3. Jeton Firebase : uid stable lié au compte IBKEYS, rôles en revendications personnalisées
   try {
-    const uid = `ibkeys:${sub}`;
-    const auth = adminAuth();
-    try {
-      await auth.updateUser(uid, { displayName: name || undefined });
-    } catch {
-      await auth.createUser({ uid, displayName: name || undefined });
-    }
-    const customToken = await auth.createCustomToken(uid, { ibkeys: true, roles });
+    const customToken = await createCustomToken(`ibkeys:${sub}`, { ibkeys: true, roles });
     return NextResponse.json({ customToken, idToken: tokens.id_token ?? null, profile: { name, email }, roles });
   } catch (e) {
-    console.error("ibkeys: firebase admin", e);
+    console.error("ibkeys: jeton Firebase", e);
     return fail(500, "firebase_error", "Impossible d'ouvrir la session. Réessayez plus tard.");
   }
 }

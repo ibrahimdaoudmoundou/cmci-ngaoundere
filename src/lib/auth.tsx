@@ -85,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new IbkeysError(data.error || "error", data.message || "Connexion IBKEYS impossible.");
       const cred = await signInWithCustomToken(fbAuth(), data.customToken);
+      if (data.profile?.name && cred.user.displayName !== data.profile.name) await updateProfile(cred.user, { displayName: data.profile.name });
       try { if (data.idToken) sessionStorage.setItem("ibkeys_id_token", data.idToken); } catch { /* ignore */ }
       const ref = doc(fbDb(), "profils", cred.user.uid);
       const s = await getDoc(ref);
