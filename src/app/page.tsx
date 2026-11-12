@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import Logo from "@/components/Logo";
+import { Apercu2025 } from "@/components/Annee2025";
 import { BookCard, BuyModal, ContactBlock, PastorBlock } from "@/components/blocks";
 import { AnnonceStrip, ArticleCard, visibles } from "@/components/news";
 import { Empty } from "@/components/ui";
@@ -107,6 +108,8 @@ export default function Accueil() {
             <a href={vision?.siteMondial || CMCI_GLOBAL_URL} target="_blank" rel="noopener" className="text-sm font-semibold">{L("Visiter le site mondial de la CMCI", "Visit the CMFI worldwide website")} ↗</a>
           </div>
         </section>
+
+        <Apercu2025 />
 
         {/* ---------- Pasteur + contact ---------- */}
         <section className="grid gap-6 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">

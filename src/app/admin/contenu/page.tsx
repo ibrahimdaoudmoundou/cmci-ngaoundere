@@ -115,12 +115,15 @@ export default function Contenu() {
   const vide = !pasteurs.length && !centres.length;
   return (
     <div className="grid gap-7">
-      {vide && (
-        <div className="notice">
-          <span><b>Base vide.</b> Installez les données de départ : le pasteur Samuel Yadiaya, les centres Haut-Plateau, Baladji, Gadamabanga et Wakwa (positions approximatives à vérifier), les départements habituels (responsables à désigner), un programme d&apos;exemple et un premier article de bienvenue.</span>
-          <button className="btn btn-sm" disabled={busy} onClick={async () => { setBusy(true); try { await initialiserDonnees(); toast("Données de départ installées"); } catch (e) { console.warn(e); toast("Installation impossible : vérifiez les règles Firestore."); } setBusy(false); }}>Installer les données de départ</button>
-        </div>
-      )}
+      <div className={`notice ${vide ? "" : "bg-surface-2"}`}>
+        <span className="max-w-[80ch]"><b>{vide ? "Base vide. " : ""}Contenu de l&apos;église (documents 2025–2026).</b> Installe ou complète : les pasteurs Samuel Yadiaya et Baha Jacques, les 10 centres de la ville, le programme régulier (cultes, enseignement du mardi, intercession du mercredi), 6 départements (jeunesse, School Conquest, enfants, miséricorde, intercession, évangélisation), 4 localités (Meiganga, Mbaka, Tignère, Ngaoundal) et 5 articles avec photos. Ce que vous avez déjà modifié dans la gestion n&apos;est jamais écrasé.</span>
+        <button className="btn btn-sm" disabled={busy} onClick={async () => {
+          setBusy(true);
+          try { const r = await initialiserDonnees(); toast(`${r.ecrits} élément(s) installé(s)${r.gardes ? `, ${r.gardes} déjà modifié(s) conservé(s)` : ""}`); }
+          catch (e) { console.warn(e); toast("Import impossible : vérifiez vos droits et les règles Firestore."); }
+          setBusy(false);
+        }}>{busy ? "Import en cours…" : "Importer le contenu de l'église"}</button>
+      </div>
       <VisionForm />
       <ConfigForm />
       <Block title="Pasteurs et responsables" entity="pasteurs" list={sortPasteurs(pasteurs)} cols={[

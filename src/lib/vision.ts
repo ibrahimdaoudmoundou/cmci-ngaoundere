@@ -15,9 +15,9 @@ export const VISION_DEFAUT: Required<Omit<Vision, "siteMondial">> = {
   valeurs_en:
     "Prayer and fasting\nTotal consecration to Jesus Christ\nStudy of and obedience to God's Word\nEvangelism and missions\nHoly living\nBrotherly love and service",
   histoireLocale:
-    "L'église de Ngaoundéré est une église locale de la Communauté Missionnaire Chrétienne Internationale. Sous la conduite du pasteur Samuel Yadiaya, elle rassemble les fidèles à l'église centrale et dans ses centres de quartier, et porte l'Évangile dans les localités et les villages autour de la ville.",
+    "L'Église à Ngaoundéré est une église locale de la Communauté Missionnaire Chrétienne Internationale, dans la province spirituelle de l'Adamaoua. Sous la conduite du Pasteur Samuel Yadiaya, elle rassemble les fidèles dans dix centres de la ville — Haut-Plateau, Baladji, Wakwa, Marza, Setuba, Selbé-Darang, Nord Cifan, Béka, Gada et Youkou — et porte l'Évangile dans les localités voisines, dans la vision d'une Méga Église à Ngaoundéré.",
   histoireLocale_en:
-    "The Ngaoundéré church is a local church of the Christian Missionary Fellowship International. Under the leadership of Pastor Samuel Yadiaya, it gathers believers at the central church and in its neighbourhood centres, and takes the Gospel to the localities and villages around the city.",
+    "The Ngaoundéré church is a local church of the Christian Missionary Fellowship International, in the spiritual province of Adamawa. Led by Pastor Samuel Yadiaya, it gathers believers in ten city centres — Haut-Plateau, Baladji, Wakwa, Marza, Setuba, Selbé-Darang, Nord Cifan, Béka, Gada and Youkou — and carries the Gospel to the surrounding localities, with the vision of a Mega Church in Ngaoundéré.",
 };
 
 /** Présentation de la CMCI mondiale (fondation : 12 mai 1975, Yaoundé, Pr Zacharias Tanee Fomum). */

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { PastorBlock } from "@/components/blocks";
 import Logo from "@/components/Logo";
+import { Chiffres, Frise2025 } from "@/components/Annee2025";
 import { useCollection, useDocument } from "@/lib/hooks";
 import { useLang } from "@/lib/i18n";
 import { CMCI_GLOBAL_URL } from "@/lib/format";
@@ -25,11 +26,15 @@ export default function Eglise() {
   return (
     <main>
       <section className="relative overflow-hidden bg-band text-band-ink">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-[420px] w-[420px] rounded-full bg-sun/20 blur-3xl" aria-hidden="true" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/photos/2025-10-culte.jpg" alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-band via-band/90 to-band/40" aria-hidden="true" />
         <div className="page relative grid gap-5 pb-14 pt-12">
           <div className="eyebrow text-sun">{L("Notre église", "About us")}</div>
           <h1 className="max-w-[18ch] text-[2.2rem] leading-[1.08] sm:text-[3.2rem]">{L("Une église locale au cœur d'une vision mondiale", "A local church at the heart of a worldwide vision")}</h1>
           <p className="max-w-[62ch] text-band-muted">{tr(v, "histoireLocale")}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-sun">{L("Province spirituelle de l'Adamaoua", "Spiritual province of Adamawa")}</p>
+          <div className="mt-4"><Chiffres onBand /></div>
         </div>
       </section>
 
@@ -68,6 +73,8 @@ export default function Eglise() {
           <div className="eyebrow">{L("Conduite de l'église", "Church leadership")}</div>
           <div className="panel">{pasteurs.loading ? <p className="text-muted">{L("Chargement…", "Loading…")}</p> : <PastorBlock p={ps[0]} big />}</div>
         </section>
+
+        <Frise2025 />
 
         <section className="grid gap-4 sm:grid-cols-3">
           {[
