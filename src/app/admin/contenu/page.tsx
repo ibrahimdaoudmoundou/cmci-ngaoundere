@@ -116,7 +116,7 @@ export default function Contenu() {
   return (
     <div className="grid gap-7">
       <div className={`notice ${vide ? "" : "bg-surface-2"}`}>
-        <span className="max-w-[80ch]"><b>{vide ? "Base vide. " : ""}Contenu de l&apos;église (documents 2025–2026).</b> Installe ou complète : les pasteurs Samuel Yadiaya et Baha Jacques, les 10 centres de la ville, le programme régulier (cultes, enseignement du mardi, intercession du mercredi), 6 départements (jeunesse, School Conquest, enfants, miséricorde, intercession, évangélisation), 4 localités (Meiganga, Mbaka, Tignère, Ngaoundal) et 5 articles avec photos. Ce que vous avez déjà modifié dans la gestion n&apos;est jamais écrasé.</span>
+        <span className="max-w-[80ch]"><b>{vide ? "Base vide. " : ""}Contenu de l&apos;église (documents 2025–2026).</b> Installe ou complète : les pasteurs Samuel Yadiaya et Baha Jacques avec les responsables des centres, les 11 centres de la ville, le programme régulier (cultes, enseignement du mardi, intercession du mercredi), 6 départements (jeunesse, School Conquest, enfants, miséricorde, intercession, évangélisation), 4 localités (Meiganga, Mbaka, Tignère, Ngaoundal) et 5 articles avec photos. Ce que vous avez déjà modifié dans la gestion n&apos;est jamais écrasé.</span>
         <button className="btn btn-sm" disabled={busy} onClick={async () => {
           setBusy(true);
           try { const r = await initialiserDonnees(); toast(`${r.ecrits} élément(s) installé(s)${r.gardes ? `, ${r.gardes} déjà modifié(s) conservé(s)` : ""}`); }

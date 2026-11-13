@@ -16,7 +16,16 @@ const P = (s: string) => s.trim().replace(/\n +/g, "\n");
 
 const CONFIG: DocumentData = { adresse: "Hall de Haut-Plateau, Ngaoundéré, Adamaoua, Cameroun" };
 
+const resp = (nom: string, centre: string, ordre: number, titre = "Pasteur") =>
+  ({ nom, titre, centre, ordre, rdv: true, photo: "", tel: "", bio: `${titre} du centre ${centre}.`, bio_en: `${titre === "Pasteur" ? "Pastor" : "Leader"} of the ${centre} centre.` });
+
 const PASTEURS: Docs = {
+  "paul-elanga": resp("Paul Elanga", "Haut-Plateau", 3),
+  "alain-afnassa": resp("Alain Afnassa", "Béka", 4, "Responsable de centre"),
+  "alphonse-gada": resp("Alphonse", "Gada-Mabanga", 5, "Responsable de centre"),
+  "enoh-robert": resp("Enoh Robert", "Gada-Mabanga", 6, "Responsable de centre"),
+  "paul-ania": resp("Paul Ania", "Repyanga", 7, "Responsable de centre"),
+  konai: resp("Konaï", "Wakwa", 8, "Responsable de centre"),
   "samuel-yadiaya": {
     nom: "Samuel Yadiaya", titre: "Pasteur principal", centre: "Siège", ordre: 1, rdv: true, photo: "", tel: "",
     bio: "Pasteur principal de l'Église de la CMCI à Ngaoundéré, dans la province spirituelle de l'Adamaoua. Il conduit l'église centrale et ses centres de quartier, visite les localités voisines et exerce le ministère dans chaque centre de la ville.",
@@ -29,18 +38,19 @@ const PASTEURS: Docs = {
   },
 };
 
-/** Les 10 centres cités dans le rapport du ministère aux enfants 2025. */
+/** Centres de la ville (rapport du ministère aux enfants 2025, complété par le secrétariat). */
 const CENTRES: Docs = {
-  "haut-plateau": { nom: "Haut-Plateau", quartier: "Haut-Plateau", lat: 7.315, lng: 13.599, approx: true, adresse: "Centre chrétien de Haut-Plateau (hall de l'église)" },
+  "haut-plateau": { nom: "Haut-Plateau", quartier: "Haut-Plateau", responsable: "Pasteur Paul Elanga", lat: 7.315, lng: 13.599, approx: true, adresse: "Centre chrétien de Haut-Plateau (hall de l'église)" },
   baladji: { nom: "Baladji", quartier: "Baladji", lat: 7.333, lng: 13.577, approx: true },
-  gadamabanga: { nom: "Gada-Mabanga", quartier: "Gada-Mabanga", lat: 7.336, lng: 13.596, approx: true },
-  wakwa: { nom: "Wakwa", quartier: "Wakwa", lat: 7.266, lng: 13.552, approx: true },
+  gadamabanga: { nom: "Gada-Mabanga", quartier: "Gada-Mabanga", responsable: "Alphonse et Enoh Robert", lat: 7.336, lng: 13.596, approx: true },
+  wakwa: { nom: "Wakwa", quartier: "Wakwa", responsable: "Konaï", lat: 7.266, lng: 13.552, approx: true },
   marza: { nom: "Marza", quartier: "Marza", lat: "", lng: "" },
   setuba: { nom: "Setuba", quartier: "Setuba", lat: "", lng: "" },
   "selbe-darang": { nom: "Selbé-Darang", quartier: "Selbé-Darang", lat: "", lng: "" },
   "nord-cifan": { nom: "Nord Cifan", quartier: "Nord Cifan", lat: "", lng: "" },
-  beka: { nom: "Béka", quartier: "Béka", lat: "", lng: "" },
+  beka: { nom: "Béka", quartier: "Béka", responsable: "Alain Afnassa", lat: "", lng: "" },
   youkou: { nom: "Youkou", quartier: "Youkou", lat: "", lng: "" },
+  repyanga: { nom: "Repyanga", quartier: "Repyanga", responsable: "Paul Ania", lat: "", lng: "" },
 };
 
 const PROGRAMME: Docs = {

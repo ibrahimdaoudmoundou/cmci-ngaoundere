@@ -57,7 +57,7 @@ export const VIE_REGULIERE = {
 
 /** Chiffres clés tirés des documents de l'église. */
 export const CHIFFRES = [
-  { v: "10", fr: "centres dans la ville", en: "centres in the city" },
+  { v: "11", fr: "centres dans la ville", en: "centres in the city" },
   { v: "6 000+", fr: "participants à la croisade", en: "crusade participants" },
   { v: "1 000+", fr: "heures de prière investies", en: "hours of prayer invested" },
   { v: "1 517", fr: "enfants suivis par 47 ministres", en: "children cared for by 47 ministers" },
