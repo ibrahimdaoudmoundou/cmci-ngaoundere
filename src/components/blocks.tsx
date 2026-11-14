@@ -17,7 +17,7 @@ export function PastorBlock({ p, big = false }: { p?: WithId<Pasteur>; big?: boo
       <Photo src={p.photo} name={p.nom} className="aspect-[4/5] w-full max-w-[220px] rounded-xl" textClass={big ? "text-6xl" : "text-4xl"} />
       <div className="grid min-w-0 gap-2.5">
         <div>
-          <div className="intertitre text-muted">{V(p.titre) || L("Pasteur", "Pastor")}</div>
+          <div className="eyebrow text-muted">{V(p.titre) || L("Pasteur", "Pastor")}</div>
           <h2 className={big ? "text-[2rem]" : "text-[1.55rem]"}>{p.nom}</h2>
         </div>
         {tr(p, "bio") && <p className="max-w-[62ch]">{tr(p, "bio")}</p>}
@@ -45,7 +45,7 @@ export function BookCard({ b, onBuy }: { b: WithId<Livre>; onBuy: (b: WithId<Liv
   return (
     <article className="grid grid-rows-[auto_1fr] overflow-hidden rounded-xl border border-line bg-surface">
       <div className="relative grid aspect-[3/2] max-w-full place-items-center overflow-hidden bg-green p-4 text-center font-display text-lg text-on-green">
-        <span className="absolute bottom-0 left-3.5 top-0 w-[3px] bg-accent/80" />
+        <span className="absolute bottom-0 left-3.5 top-0 w-[3px] bg-sun/80" />
         {b.titre}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {b.couverture && <img src={b.couverture} alt={b.titre} className="absolute inset-0 h-full w-full object-cover" onError={(e) => (e.currentTarget.style.display = "none")} />}

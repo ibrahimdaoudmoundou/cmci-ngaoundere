@@ -12,7 +12,7 @@ export function StatutBadge({ statut }: { statut?: string }) {
 
 export function ExampleBadge({ show }: { show?: boolean }) {
   const { L } = useLang();
-  return show ? <span className="ml-2 inline-block border border-dashed border-field px-2 py-0.5 align-middle text-[0.7rem] font-semibold text-muted">{L("exemple", "example")}</span> : null;
+  return show ? <span className="ml-2 inline-block rounded-full border border-dashed border-line px-2 py-0.5 align-middle text-[0.7rem] font-semibold text-muted">{L("exemple", "example")}</span> : null;
 }
 
 export function Empty({ title, children }: { title: string; children?: ReactNode }) {
@@ -21,11 +21,11 @@ export function Empty({ title, children }: { title: string; children?: ReactNode
 
 export function PageHead({ eyebrow, title, children, aside }: { eyebrow: string; title: string; children?: ReactNode; aside?: ReactNode }) {
   return (
-    <div className="une-in rubrique flex flex-wrap items-end justify-between gap-4">
+    <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <p className="text-[0.9rem] font-semibold text-muted">{eyebrow}</p>
-        <h1 className="mt-2 text-[2.2rem] leading-[1.05] sm:text-[3.2rem]">{title}</h1>
-        {children && <p className="mt-3 max-w-[62ch] text-[1.05rem] text-muted">{children}</p>}
+        <div className="eyebrow">{eyebrow}</div>
+        <h1 className="h2 mt-1">{title}</h1>
+        {children && <p className="mt-2 max-w-[62ch] text-muted">{children}</p>}
       </div>
       {aside}
     </div>
@@ -57,11 +57,11 @@ export function Modal({ title, onClose, children }: { title: string; onClose: ()
   }, [onClose]);
   return (
     <div role="dialog" aria-modal="true" aria-label={title} onClick={(e) => e.target === e.currentTarget && onClose()}
-      className="fixed inset-0 z-50 grid place-items-center bg-ink/50 p-4">
-      <div className="grid max-h-full w-full max-w-[660px] gap-4 overflow-auto border-t-[3px] border-ink bg-surface p-6">
+      className="fixed inset-0 z-50 grid place-items-center bg-band/60 p-4">
+      <div className="grid max-h-full w-full max-w-[660px] gap-4 overflow-auto rounded-2xl bg-surface p-6 shadow-2xl">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-xl">{title}</h3>
-          <button onClick={onClose} aria-label="Fermer" className="grid h-11 w-11 place-items-center text-2xl leading-none text-muted hover:text-ink">×</button>
+          <button onClick={onClose} aria-label="×" className="px-2 text-2xl leading-none text-muted">×</button>
         </div>
         {children}
       </div>

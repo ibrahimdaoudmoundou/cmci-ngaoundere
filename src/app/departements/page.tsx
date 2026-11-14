@@ -18,7 +18,7 @@ export default function Departements() {
       </PageHead>
       {list.length > 1 && (
         <nav className="flex flex-wrap gap-2" aria-label={L("Départements", "Departments")}>
-          {list.map((d) => <a key={d.id} href={`#${d.id}`} className="border border-line bg-surface px-3.5 py-1.5 text-sm font-semibold text-ink no-underline hover:border-ink">{tr(d, "nom")}</a>)}
+          {list.map((d) => <a key={d.id} href={`#${d.id}`} className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm font-semibold text-ink no-underline hover:border-sun">{tr(d, "nom")}</a>)}
         </nav>
       )}
       {list.length ? (
@@ -32,7 +32,7 @@ export default function Departements() {
                   {tr(d, "description") && <p className="text-[1.02rem]">{tr(d, "description")}</p>}
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="flex items-center gap-3">
-                      <Photo src={d.photo} name={d.responsable || "?"} className="h-14 w-14 flex-none" textClass="text-lg" />
+                      <Photo src={d.photo} name={d.responsable || "?"} className="h-14 w-14 flex-none rounded-full" textClass="text-lg" />
                       <div><div className="text-xs text-muted">{L("Responsable", "Leader")}</div><div className="font-semibold">{d.responsable || L("À désigner", "To be appointed")}</div></div>
                     </div>
                     {d.adjoint && <div className="self-center"><div className="text-xs text-muted">{L("Adjoint(e)", "Assistant")}</div><div className="font-semibold">{d.adjoint}</div></div>}
@@ -40,7 +40,7 @@ export default function Departements() {
                   {d.contact && <p className="text-sm text-muted">{L("Contact", "Contact")} : <span className="select-all">{d.contact}</span></p>}
                 </div>
                 <div className="grid content-start gap-3">
-                  <div className="intertitre">{L("Programme du département", "Department schedule")}</div>
+                  <div className="eyebrow">{L("Programme du département", "Department schedule")}</div>
                   {prog.length ? (
                     <div className="overflow-hidden rounded-xl border border-line">
                       {prog.map((p, i) => (

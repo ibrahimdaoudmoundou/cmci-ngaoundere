@@ -84,7 +84,7 @@ export default function MonEspace() {
         </div>
 
         <div className="panel grid gap-1">
-          <div className="intertitre">{L("Mes demandes", "My requests")}</div>
+          <div className="eyebrow">{L("Mes demandes", "My requests")}</div>
           {mine.loading ? <Spinner /> : list.length === 0 ? (
             <p className="pt-2 text-sm text-muted">{L("Vous n'avez encore envoyé aucune demande. Vos rendez-vous et réservations s'afficheront ici avec la réponse de l'église.", "You have not sent any request yet. Your appointments and reservations will appear here with the church's reply.")}</p>
           ) : list.map((d) => (

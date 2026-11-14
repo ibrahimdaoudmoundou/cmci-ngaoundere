@@ -34,7 +34,7 @@ export default function Missions() {
       {list.length ? (
         <div className="grid gap-4 md:grid-cols-2">
           {list.map((l) => (
-            <article key={l.id} onClick={() => setSel(l.id)} className={`grid cursor-pointer gap-3 rounded-xl border bg-surface p-5 ${sel === l.id ? "border-accent ring-1 ring-sun" : "border-line"}`}>
+            <article key={l.id} onClick={() => setSel(l.id)} className={`grid cursor-pointer gap-3 rounded-xl border bg-surface p-5 ${sel === l.id ? "border-sun ring-1 ring-sun" : "border-line"}`}>
               <div className="flex items-start gap-4">
                 <Photo src={l.photo} name={l.nom} className="h-14 w-14 flex-none rounded-xl" textClass="text-lg" />
                 <div className="min-w-0">

@@ -53,11 +53,11 @@ function Card({ d }: { d: WithId<Demande> }) {
   return (
     <article className="grid gap-3 rounded-xl border border-line bg-surface p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <div><div className="intertitre">{TYPES[d.type]}</div><h3 className="text-lg">{d.nom}</h3></div>
+        <div><div className="eyebrow">{TYPES[d.type]}</div><h3 className="text-lg">{d.nom}</h3></div>
         <div className="flex items-center gap-2"><span className="text-xs text-muted">reçue le {fshort(d.cree)}</span><StatutBadge statut={d.statut} /></div>
       </div>
       <dl className="m-0 grid gap-x-5 gap-y-1.5 text-sm [grid-template-columns:repeat(auto-fill,minmax(180px,1fr))]">
-        {rows.map(([k, v]) => <div key={k}><dt className="text-[0.7rem] text-muted">{k}</dt><dd className="m-0 select-all [overflow-wrap:anywhere]">{v}</dd></div>)}
+        {rows.map(([k, v]) => <div key={k}><dt className="text-[0.7rem] tracking-wide text-muted">{k}</dt><dd className="m-0 select-all [overflow-wrap:anywhere]">{v}</dd></div>)}
       </dl>
       {d.message && <p className="rounded-md bg-surface-2 px-3 py-2 text-sm">{d.message}</p>}
       {(d.statut === "en_attente" || d.statut === "confirme") && (

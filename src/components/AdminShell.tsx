@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { Boxes, Church, Inbox, LayoutDashboard, Newspaper, Route, Settings2, Users, Wallet, type LucideIcon } from "lucide-react";
 import EntityEditor from "@/components/EntityEditor";
 import { Spinner } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
@@ -22,10 +21,10 @@ export const useAdmin = () => useContext(Ctx)!;
 
 type Droit = "secretariat" | "tresorerie" | "tous";
 /** Onglets de gestion et droit requis (ADMIN voit tout ; SECRETARIAT et TRESORERIE voient leur partie). */
-const TABS: [string, string, Droit, LucideIcon][] = [
-  ["/admin", "Tableau de bord", "tous", LayoutDashboard], ["/admin/demandes", "Demandes", "secretariat", Inbox], ["/admin/publications", "Articles et annonces", "secretariat", Newspaper],
-  ["/admin/membres", "Membres", "secretariat", Users], ["/admin/biens", "Biens", "tresorerie", Boxes], ["/admin/finances", "Finances", "tresorerie", Wallet],
-  ["/admin/departements", "Départements", "secretariat", Church], ["/admin/missions", "Œuvre missionnaire", "secretariat", Route], ["/admin/contenu", "Site et vision", "secretariat", Settings2],
+const TABS: [string, string, Droit][] = [
+  ["/admin", "Tableau de bord", "tous"], ["/admin/demandes", "Demandes", "secretariat"], ["/admin/publications", "Articles et annonces", "secretariat"],
+  ["/admin/membres", "Membres", "secretariat"], ["/admin/biens", "Biens", "tresorerie"], ["/admin/finances", "Finances", "tresorerie"],
+  ["/admin/departements", "Départements", "secretariat"], ["/admin/missions", "Œuvre missionnaire", "secretariat"], ["/admin/contenu", "Site et vision", "secretariat"],
 ];
 
 function AdminInner({ children }: { children: ReactNode }) {
@@ -46,27 +45,20 @@ function AdminInner({ children }: { children: ReactNode }) {
   };
   return (
     <Ctx.Provider value={value}>
-      <div className="page grid gap-6 py-6 lg:grid-cols-[96px_minmax(0,1fr)] lg:gap-8">
-        {/* Rail de gestion : icônes + libellés courts ; le panneau occupe le reste */}
-        <nav aria-label="Gestion" className="-mx-4 flex gap-0 overflow-x-auto border-b-[3px] border-ink px-4 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:sticky lg:top-[76px] lg:mx-0 lg:h-fit lg:flex-col lg:overflow-visible lg:border-b-0 lg:border-r lg:border-line lg:px-0 lg:pr-3">
-          {TABS.filter(([, , dr]) => dr === "tous" || droits[dr]).map(([href, label, , Icon]) => {
-            const on = href === "/admin" ? path === "/admin" : path.startsWith(href);
-            return <Link key={href} href={href} aria-current={on ? "page" : undefined} title={label}
-              className={`relative grid min-h-[56px] min-w-[84px] flex-none justify-items-center gap-1 px-2 py-2 text-center text-[0.7rem] font-semibold leading-tight no-underline lg:min-w-0 ${on ? "text-accent after:absolute after:inset-x-2 after:bottom-0 after:h-[3px] after:bg-accent lg:after:inset-x-auto lg:after:inset-y-2 lg:after:-right-[14px] lg:after:h-auto lg:after:w-[3px]" : "text-muted hover:text-ink"}`}>
-              <Icon size={20} strokeWidth={1.75} aria-hidden />
-              <span>{label}</span>
-              {href === "/admin/demandes" && pending > 0 && <span className="absolute right-3 top-1 bg-accent px-1 text-[0.65rem] tabular-nums text-on-accent">{pending}</span>}
-            </Link>;
-          })}
-        </nav>
-        <main className="grid min-w-0 content-start gap-6">
-          <div className="rubrique flex flex-wrap items-baseline justify-between gap-3">
-            <h1 className="h2">Gestion de l&apos;église</h1>
-            <p className="text-sm text-muted">Réservé à l&apos;administration</p>
-          </div>
-          {children}
-        </main>
-      </div>
+      <main className="page grid gap-6 py-8">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div><div className="eyebrow">Réservé à l'administration</div><h1 className="h2 mt-1">Gestion de l'église</h1></div>
+          <nav className="flex flex-wrap gap-1.5" aria-label="Gestion">
+            {TABS.filter(([, , dr]) => dr === "tous" || droits[dr]).map(([href, label]) => {
+              const on = href === "/admin" ? path === "/admin" : path.startsWith(href);
+              return <Link key={href} href={href} className={`rounded-full border px-3.5 py-1.5 text-sm font-semibold no-underline ${on ? "border-green bg-green text-on-green" : "border-line bg-surface text-muted hover:text-ink"}`}>
+                {label}{href === "/admin/demandes" && pending > 0 && <span className="ml-1.5 font-mono text-xs">{pending}</span>}
+              </Link>;
+            })}
+          </nav>
+        </div>
+        {children}
+      </main>
       {editing && <EntityEditor entity={editing.entity} item={editing.item} centres={value.centreNames} onClose={() => setEditing(null)} />}
     </Ctx.Provider>
   );

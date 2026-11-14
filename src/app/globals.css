@@ -2,108 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   Direction « Bulletin d'église » — CMCI Ngaoundéré
-   Tokens en OKLCH (L C H). Contrastes mesurés : voir DIRECTION.md.
-   ============================================================ */
+/* Palette tirée du logo de la CMCI : bleu roi, bleu ciel du globe et de la colombe, fond bleuté très clair.
+   Les noms de variables (green, gold, sun) sont conservés pour ne pas toucher aux composants. */
 :root {
-  /* sémantiques */
-  --bg: 0.985 0.003 250;          /* papier du bulletin */
-  --surface: 1 0 0;
-  --surface-2: 0.955 0.006 250;
-  --ink: 0.2 0.01 260;            /* encre */
-  --muted: 0.46 0.01 260;         /* 6.8:1 sur le fond */
-  --rule: 0.86 0.006 255;         /* filets de colonnes (décoratifs) */
-  --line: 0.86 0.006 255;
-  --field: 0.62 0.01 260;         /* bord des champs, 3.6:1 */
-  --accent: 0.47 0.14 250;        /* bleu CMCI (logo #0060A4), 6.5:1 */
-  --accent-2: 0.41 0.13 250;
-  --on-accent: 0.99 0 0;
-  --accent-soft: 0.95 0.025 245;
-  --ok: 0.45 0.11 150;  --ok-soft: 0.95 0.03 150;
-  --warn: 0.5 0.12 65;  --warn-soft: 0.96 0.04 85;
-  --bad: 0.5 0.18 27;   --bad-soft: 0.96 0.03 25;
-  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --bg: 244 248 252; --surface: 255 255 255; --surface-2: 232 241 249;
+  --ink: 12 30 52; --muted: 82 102 126; --line: 212 225 238;
+  --green: 0 96 164; --green-2: 0 125 200; --on-green: 255 255 255;
+  --band: 5 45 92; --band-2: 12 62 118; --band-ink: 236 245 252; --band-muted: 168 199 228;
+  --gold: 0 120 190; --gold-soft: 223 241 252; --sun: 92 203 245;
+  --ok: 30 130 80; --ok-soft: 224 243 232; --warn: 168 105 10; --warn-soft: 252 240 214;
+  --bad: 184 52 52; --bad-soft: 250 226 226;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    /* lecture du soir */
-    --bg: 0.19 0.008 260; --surface: 0.22 0.008 260; --surface-2: 0.25 0.008 260;
-    --ink: 0.92 0.005 260; --muted: 0.7 0.01 260; --rule: 0.32 0.01 260; --line: 0.32 0.01 260; --field: 0.55 0.01 260;
-    --accent: 0.74 0.11 245; --accent-2: 0.8 0.09 245; --on-accent: 0.19 0.008 260; --accent-soft: 0.27 0.04 245;
-    --ok: 0.78 0.12 150; --ok-soft: 0.26 0.04 150;
-    --warn: 0.8 0.12 75; --warn-soft: 0.28 0.04 75;
-    --bad: 0.78 0.13 27; --bad-soft: 0.27 0.05 27;
+    --bg: 7 16 29; --surface: 13 26 44; --surface-2: 19 36 58;
+    --ink: 229 238 248; --muted: 148 170 196; --line: 34 54 80;
+    --green: 92 186 240; --green-2: 132 206 246; --on-green: 7 16 29;
+    --band: 5 30 62; --band-2: 14 48 88; --band-ink: 236 245 252; --band-muted: 160 192 224;
+    --gold: 110 196 244; --gold-soft: 16 44 74; --sun: 92 203 245;
+    --ok: 120 205 155; --ok-soft: 20 52 38; --warn: 232 180 80; --warn-soft: 58 44 18;
+    --bad: 240 140 136; --bad-soft: 62 28 28;
     color-scheme: dark;
   }
 }
 
-html { -webkit-text-size-adjust: 100%; scrollbar-color: oklch(var(--field)) oklch(var(--bg)); }
-body { @apply bg-bg text-ink font-sans antialiased; font-size: 15px; line-height: 1.55; font-variant-numeric: lining-nums; }
-h1, h2, h3 { @apply font-display font-normal; text-wrap: balance; line-height: 1.12; letter-spacing: -0.01em; }
-p { text-wrap: pretty; }
-a { color: oklch(var(--accent)); text-underline-offset: 0.2em; text-decoration-thickness: from-font; }
-::selection { background: oklch(var(--accent-soft)); color: oklch(var(--ink)); }
-input, textarea { caret-color: oklch(var(--accent)); }
-:focus-visible { outline: 2px solid oklch(var(--accent)); outline-offset: 2px; }
-input[type="checkbox"], input[type="radio"], input[type="range"] { accent-color: oklch(var(--accent)); }
-.font-mono, .tabular { font-variant-numeric: tabular-nums; }
+html { -webkit-text-size-adjust: 100%; }
+body { @apply bg-bg text-ink font-sans antialiased; font-size: 15px; line-height: 1.55; }
+h1, h2, h3 { @apply font-display font-normal; text-wrap: balance; line-height: 1.15; }
+:focus-visible { outline: 2px solid rgb(var(--sun)); outline-offset: 2px; }
+a { color: rgb(var(--green)); }
 
 @layer components {
   .page { @apply mx-auto w-full max-w-page px-4 sm:px-6; }
-  /* Intertitre de bloc : phrase normale, pas d'étiquette en capitales espacées */
-  .intertitre { @apply font-sans text-[0.95rem] font-semibold text-ink; }
-  .h2 { @apply text-[1.75rem] leading-[1.1] sm:text-[2.4rem]; }
-  /* Section de bulletin : un filet épais au-dessus du titre, comme une rubrique */
-  .rubrique { @apply border-t-[3px] border-ink pt-3; }
-  .panel { @apply min-w-0 border border-line bg-surface p-5 sm:p-6; }
-  .btn { @apply inline-flex min-h-[44px] cursor-pointer items-center justify-center gap-2 border-2 border-accent bg-accent px-4 py-2 text-sm font-semibold leading-tight text-on-accent no-underline transition-[background-color,border-color,transform] duration-150 ease-out hover:border-accent-2 hover:bg-accent-2 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100; }
-  .btn-ghost { @apply btn border-ink bg-transparent text-ink hover:border-accent hover:bg-transparent hover:text-accent; }
-  .btn-gold { @apply btn; }
-  .btn-band { @apply btn-ghost; }
-  .btn-danger { @apply btn border-bad bg-bad text-white hover:border-bad hover:bg-bad/90; }
-  .btn-sm { @apply min-h-[36px] px-2.5 py-1 text-xs; }
+  .eyebrow { @apply text-[0.95rem] font-semibold text-gold; }
+  .h2 { @apply text-[1.65rem] sm:text-[2.1rem]; }
+  .panel { @apply min-w-0 rounded-xl border border-line bg-surface p-5 sm:p-6; }
+  .btn { @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-transparent bg-green px-4 py-2.5 text-sm font-semibold leading-tight text-on-green no-underline transition-colors hover:bg-green-2 disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-ghost { @apply btn border-line bg-transparent text-green hover:bg-surface-2; }
+  .btn-gold { @apply btn bg-sun text-[#052D5C] hover:bg-sun/90; }
+  .btn-band { @apply btn border-white/30 bg-transparent text-band-ink hover:bg-white/10; }
+  .btn-danger { @apply btn bg-bad text-white hover:bg-bad/90; }
+  .btn-sm { @apply px-2.5 py-1.5 text-xs; }
   .field { @apply grid gap-1.5 text-[0.84rem] font-semibold; }
   .field .hint { @apply font-normal text-muted text-[0.78rem]; }
-  .input { @apply w-full min-w-0 border border-field bg-surface px-3 py-2 text-base font-normal text-ink outline-none focus:border-accent focus:ring-1 focus:ring-accent sm:text-[0.95rem]; }
-  .badge { @apply inline-flex items-center gap-1.5 whitespace-nowrap bg-surface-2 px-2 py-0.5 text-[0.72rem] font-semibold text-muted before:h-1.5 before:w-1.5 before:rounded-full before:bg-current before:content-['']; }
+  .input { @apply w-full min-w-0 rounded-lg border border-line bg-surface px-3 py-2 text-[0.95rem] font-normal text-ink outline-none focus:border-transparent focus:ring-2 focus:ring-green; }
+  .badge { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-surface-2 px-2 py-0.5 text-[0.72rem] font-semibold text-muted before:h-1.5 before:w-1.5 before:rounded-full before:bg-current before:content-['']; }
   .badge-ok { @apply bg-ok-soft text-ok; }
   .badge-warn { @apply bg-warn-soft text-warn; }
   .badge-bad { @apply bg-bad-soft text-bad; }
-  .badge-gold { @apply bg-accent-soft text-accent; }
-  .tile { @apply grid min-w-0 gap-1 border-t-[3px] border-ink bg-surface p-4; }
-  .tile-v { @apply font-display text-[1.7rem] leading-none tabular-nums [overflow-wrap:anywhere]; }
+  .badge-gold { @apply bg-gold-soft text-gold; }
+  .tile { @apply grid min-w-0 gap-1 rounded-xl border border-line bg-surface p-4; }
+  .tile-v { @apply font-mono text-[1.4rem] font-medium tabular-nums [overflow-wrap:anywhere]; }
   .tbl { @apply w-full border-collapse text-[0.88rem]; }
-  .tbl th { @apply sticky top-0 whitespace-nowrap border-b-2 border-ink bg-surface px-3 py-2 text-left text-[0.78rem] font-semibold text-ink; }
-  .tbl td { @apply border-b border-line px-3 py-2 align-top; }
+  .tbl th { @apply whitespace-nowrap border-b border-line bg-surface-2 px-3.5 py-2.5 text-left text-[0.8rem] font-semibold text-muted; }
+  .tbl td { @apply border-b border-line px-3.5 py-2.5 align-top; }
   .tbl tr:last-child td { @apply border-b-0; }
-  .tbl .num { @apply whitespace-nowrap text-right tabular-nums; }
-  .tbl-box { @apply overflow-x-auto border border-line bg-surface; }
-  .notice { @apply flex flex-wrap items-center justify-between gap-3 bg-accent-soft px-4 py-3 text-[0.88rem]; }
-  .empty { @apply grid justify-items-center gap-1.5 border border-dashed border-field p-7 text-center text-muted; }
-  /* Lecture longue (articles, vision) */
-  .prose-read { @apply font-read text-[1.08rem] leading-[1.7]; }
-  /* Lien de bulletin : le souligné se trace au survol */
-  .lien { @apply bg-[length:0%_1px] bg-left-bottom bg-no-repeat text-ink no-underline transition-[background-size] duration-300 ease-out hover:bg-[length:100%_1px]; background-image: linear-gradient(currentColor, currentColor); }
+  .tbl .num { @apply whitespace-nowrap text-right font-mono tabular-nums; }
+  .tbl-box { @apply overflow-x-auto rounded-xl border border-line bg-surface; }
+  .notice { @apply flex flex-wrap items-center justify-between gap-3 rounded-lg bg-gold-soft px-4 py-3 text-[0.88rem]; }
+  .empty { @apply grid justify-items-center gap-1.5 rounded-xl border border-dashed border-line p-7 text-center text-muted; }
 }
-
-/* Entrée de la une : morceaux échelonnés, une seule fois */
-@keyframes une-in { from { opacity: 0; transform: translateY(12px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
-.une-in { animation: une-in 320ms var(--ease-out) both; }
-.une-in-2 { animation-delay: 80ms; } .une-in-3 { animation-delay: 160ms; } .une-in-4 { animation-delay: 240ms; }
 
 /* Carte Leaflet */
-.leaflet-container { font-family: inherit; background: oklch(var(--surface-2)); }
-.cmci-pin { width: 18px; height: 18px; border-radius: 50%; background: oklch(var(--accent)); border: 3px solid oklch(var(--surface)); box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); }
-.cmci-pin.sel { width: 24px; height: 24px; outline: 2px solid oklch(var(--ink)); }
-.cmci-pin.loc { background: oklch(var(--ink)); }
-.cmci-label { background: oklch(var(--surface)); color: oklch(var(--ink)); border: 1px solid oklch(var(--ink)); border-radius: 0; font-weight: 600; box-shadow: none; }
+.leaflet-container { font-family: inherit; background: rgb(var(--surface-2)); border-radius: 12px; }
+.cmci-pin { width: 22px; height: 22px; border-radius: 50%; background: rgb(var(--green)); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); display: grid; place-items: center; }
+.cmci-pin::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #5CCBF5; }
+.cmci-pin.sel { width: 28px; height: 28px; outline: 3px solid #5CCBF5; }
+.cmci-label { background: rgb(var(--surface)); color: rgb(var(--ink)); border: 1px solid rgb(var(--line)); font-weight: 600; box-shadow: none; }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
-}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+.cmci-pin.loc { background: rgb(var(--sun)); }
+.cmci-pin.loc::after { background: #052D5C; }
 
-/* Ouverture du sommaire */
-@keyframes sommaire-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
-.sommaire-in { animation: sommaire-in 180ms var(--ease-out) both; }
+.font-mono { font-variant-numeric: tabular-nums; }
