@@ -26,7 +26,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         )}
         {children}
         {msg && (
-          <div role="status" className="fixed bottom-5 left-1/2 z-[60] max-w-[calc(100%-32px)] -translate-x-1/2 rounded-lg bg-ink px-4 py-2.5 text-sm text-bg shadow-lg">
+          <div role="status" className="fixed bottom-5 left-1/2 z-[60] max-w-[calc(100%-32px)] -translate-x-1/2 rounded-lg bg-ink px-4 py-2.5 text-sm text-bg ">
             {msg}
           </div>
         )}

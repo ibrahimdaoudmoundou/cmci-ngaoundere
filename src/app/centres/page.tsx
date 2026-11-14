@@ -25,10 +25,10 @@ export default function Centres() {
         <div className="min-w-0 overflow-hidden rounded-xl border border-line"><MapPoints points={data.map((c) => ({ ...c, kind: "centre" as const }))} selected={sel} onSelect={setSel} /></div>
         <div className="grid gap-3">
           {data.length ? data.map((c) => (
-            <article key={c.id} id={`c-${c.id}`} onClick={() => setSel(c.id)} className={`grid cursor-pointer gap-2 rounded-xl border bg-surface p-4 ${sel === c.id ? "border-sun ring-1 ring-sun" : "border-line"}`}>
+            <article key={c.id} id={`c-${c.id}`} onClick={() => setSel(c.id)} className={`grid cursor-pointer gap-2 rounded-xl border bg-surface p-4 ${sel === c.id ? "border-accent ring-1 ring-sun" : "border-line"}`}>
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-xl">{c.nom}</h3>
-                {c.approx && <span className="rounded-full border border-dashed border-line px-2 py-0.5 text-[0.7rem] font-semibold text-muted">{L("position approximative", "approximate location")}</span>}
+                {c.approx && <span className="border border-dashed border-line px-2 py-0.5 text-[0.7rem] font-semibold text-muted">{L("position approximative", "approximate location")}</span>}
               </div>
               <dl className="m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-sm">
                 {c.quartier && <><dt className="text-muted">{L("Quartier", "District")}</dt><dd className="m-0">{c.quartier}</dd></>}

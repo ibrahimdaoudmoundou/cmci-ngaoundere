@@ -25,41 +25,46 @@ export default function Eglise() {
 
   return (
     <main>
-      <section className="relative overflow-hidden bg-band text-band-ink">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/photos/2025-10-culte.jpg" alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25" aria-hidden="true" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-band via-band/90 to-band/40" aria-hidden="true" />
-        <div className="page relative grid gap-5 pb-14 pt-12">
-          <div className="eyebrow text-sun">{L("Notre église", "About us")}</div>
-          <h1 className="max-w-[18ch] text-[2.2rem] leading-[1.08] sm:text-[3.2rem]">{L("Une église locale au cœur d'une vision mondiale", "A local church at the heart of a worldwide vision")}</h1>
-          <p className="max-w-[62ch] text-band-muted">{tr(v, "histoireLocale")}</p>
-          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-sun">{L("Province spirituelle de l'Adamaoua", "Spiritual province of Adamawa")}</p>
-          <div className="mt-4"><Chiffres onBand /></div>
+      <section className="page pt-8">
+        <div className="une-in rubrique grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+          <div className="grid content-start gap-4">
+            <p className="text-[0.9rem] font-semibold text-muted">{L("Notre église · Province spirituelle de l'Adamaoua", "About us · Spiritual province of Adamawa")}</p>
+            <h1 className="max-w-[16ch] text-[2.4rem] leading-[1.02] sm:text-[3.8rem]">{L("Une église locale au cœur d'une vision mondiale", "A local church at the heart of a worldwide vision")}</h1>
+            <p className="max-w-[62ch] font-read text-[1.1rem] leading-[1.65]">{tr(v, "histoireLocale")}</p>
+          </div>
+          <figure className="m-0">
+            <div className="relative aspect-[4/3] overflow-hidden bg-surface-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/photos/2025-10-culte.jpg" alt={L("Culte à l'église centrale", "Service at the central church")} className="absolute inset-0 h-full w-full object-cover" />
+            </div>
+            <figcaption className="mt-2 text-[0.82rem] text-muted">{L("Culte à l'église centrale, 2025.", "Service at the central church, 2025.")}</figcaption>
+          </figure>
         </div>
+        <div className="mt-10"><Chiffres /></div>
       </section>
 
       <div className="page grid gap-14 py-12">
         <section className="grid gap-8 md:grid-cols-2">
           <div className="grid content-start gap-3">
-            <div className="eyebrow">{L("Vision", "Vision")}</div>
+            <h2 className="rubrique text-[1.8rem]">{L("Vision", "Vision")}</h2>
             {paragraphs(tr(v, "vision")).map((p, i) => <p key={i} className="font-display text-[1.4rem] leading-snug sm:text-[1.65rem]">{p}</p>)}
           </div>
           <div className="grid content-start gap-3">
-            <div className="eyebrow">{L("Mission", "Mission")}</div>
+            <h2 className="rubrique text-[1.8rem]">{L("Mission", "Mission")}</h2>
             {paragraphs(tr(v, "mission")).map((p, i) => <p key={i} className="text-[1.05rem]">{p}</p>)}
             {valeurs.length > 0 && <>
-              <div className="eyebrow mt-4">{L("Ce qui nous caractérise", "What defines us")}</div>
+              <h3 className="mt-4 text-[1.3rem]">{L("Ce qui nous caractérise", "What defines us")}</h3>
               <ul className="m-0 grid gap-2 p-0">
-                {valeurs.map((x) => <li key={x} className="flex items-start gap-3 border-b border-line pb-2 last:border-0"><span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-sun" />{x}</li>)}
+                {valeurs.map((x) => <li key={x} className="flex items-start gap-3 border-b border-line pb-2 last:border-0"><span aria-hidden className="mt-[0.75em] h-px w-3 flex-none bg-ink" />{x}</li>)}
               </ul>
             </>}
           </div>
         </section>
 
-        <section className="grid items-center gap-8 rounded-2xl border border-line bg-surface p-6 sm:p-10 md:grid-cols-[auto_minmax(0,1fr)]">
+        <section className="grid items-center gap-8 border-y-[3px] border-ink py-8 md:grid-cols-[auto_minmax(0,1fr)]">
           <Logo size={128} />
           <div className="grid gap-3">
-            <div className="eyebrow">{L("La CMCI dans le monde", "CMFI worldwide")}</div>
+            <div className="intertitre">{L("La CMCI dans le monde", "CMFI worldwide")}</div>
             <h2 className="h2">{L("Membre d'une communauté missionnaire internationale", "Part of an international missionary fellowship")}</h2>
             <p className="max-w-[70ch]">{en ? CMCI_MONDIALE.en : CMCI_MONDIALE.fr}</p>
             <p className="max-w-[70ch] text-muted">{L(
@@ -70,7 +75,7 @@ export default function Eglise() {
         </section>
 
         <section className="grid gap-5">
-          <div className="eyebrow">{L("Conduite de l'église", "Church leadership")}</div>
+          <div className="intertitre">{L("Conduite de l'église", "Church leadership")}</div>
           <div className="panel">{pasteurs.loading ? <p className="text-muted">{L("Chargement…", "Loading…")}</p> : <PastorBlock p={ps[0]} big />}</div>
         </section>
 
@@ -82,7 +87,7 @@ export default function Eglise() {
             ["/departements", deps.data.length, L("départements au service", "serving departments")],
             ["/missions", locs.data.length, L("localités et villages atteints", "localities and villages reached")],
           ].map(([href, n, l]) => (
-            <Link key={String(href)} href={String(href)} className="grid gap-1 rounded-xl border border-line bg-surface p-6 text-ink no-underline hover:border-sun">
+            <Link key={String(href)} href={String(href)} className="grid gap-1 rounded-xl border border-line bg-surface p-6 text-ink no-underline hover:border-ink">
               <span className="font-display text-[2.6rem] leading-none text-green">{String(n)}</span><span className="text-muted">{String(l)}</span>
             </Link>
           ))}

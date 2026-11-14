@@ -84,13 +84,13 @@ export default function MonEspace() {
         </div>
 
         <div className="panel grid gap-1">
-          <div className="eyebrow">{L("Mes demandes", "My requests")}</div>
+          <div className="intertitre">{L("Mes demandes", "My requests")}</div>
           {mine.loading ? <Spinner /> : list.length === 0 ? (
             <p className="pt-2 text-sm text-muted">{L("Vous n'avez encore envoyé aucune demande. Vos rendez-vous et réservations s'afficheront ici avec la réponse de l'église.", "You have not sent any request yet. Your appointments and reservations will appear here with the church's reply.")}</p>
           ) : list.map((d) => (
             <div key={d.id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1.5 border-b border-line py-3.5 last:border-0">
               <div className="min-w-0">
-                <div className="text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-gold">{V(TYPES[d.type])}</div>
+                <div className="text-[0.7rem] font-semibold text-gold">{V(TYPES[d.type])}</div>
                 <strong className="font-semibold">
                   {d.type === "rdv" ? `${(d.avecNom || "").split(" — ")[0]} · ${fdate(d.date, locale)}, ${V(d.creneau)}` : d.type === "commande" ? `${d.titre} × ${d.qte} · ${fcfa(d.total)}` : `${V("Inscription")} · ${d.centre}`}
                 </strong>

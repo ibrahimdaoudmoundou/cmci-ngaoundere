@@ -62,7 +62,7 @@ export default function Connexion() {
           <button className="btn" disabled={busy}>{mode === "login" ? L("Se connecter", "Sign in") : L("Créer mon compte", "Create my account")}</button>
           {mode === "login" && <button type="button" className="text-sm font-semibold text-green" onClick={() => f.email ? run(async () => { await resetPassword(f.email); setInfo(L("Un e-mail de réinitialisation vient d'être envoyé.", "A reset e-mail has been sent.")); }) : setErr(L("Saisissez d'abord votre e-mail.", "Enter your e-mail first."))}>{L("Mot de passe oublié ?", "Forgot password?")}</button>}
         </div>
-        <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted"><span className="h-px flex-1 bg-line" />{L("ou", "or")}<span className="h-px flex-1 bg-line" /></div>
+        <div className="flex items-center gap-3 text-xs text-muted"><span className="h-px flex-1 bg-line" />{L("ou", "or")}<span className="h-px flex-1 bg-line" /></div>
         <button type="button" className="btn-ghost" disabled={busy} onClick={() => run(google)}>{L("Continuer avec Google", "Continue with Google")}</button>
         <button type="button" className="btn-ghost" disabled={busy} onClick={() => run(() => startIbkeysLogin(suite()))}>
           {/* eslint-disable-next-line @next/next/no-img-element */}

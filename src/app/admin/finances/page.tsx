@@ -45,7 +45,7 @@ export default function Finances() {
         <div className="tile"><span className="text-sm text-muted">Solde cumulé fin de mois</span><span className={`tile-v ${sol < 0 ? "text-bad" : ""}`}>{fcfa(sol)}</span></div>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
-        <div className="panel grid gap-3"><div className="eyebrow">Six derniers mois</div>
+        <div className="panel grid gap-3"><div className="intertitre">Six derniers mois</div>
           <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Entrées et sorties des six derniers mois" className="h-auto w-full">
             {[0, 1, 2, 3, 4].map((i) => { const v = (nice * i) / 4; return <g key={i}><line x1={L} x2={W - 6} y1={y(v)} y2={y(v)} className="stroke-line" /><text x={L - 8} y={y(v) + 4} textAnchor="end" fontSize="10.5" className="fill-muted font-mono">{short(v)}</text></g>; })}
             {data.map((d, i) => { const x = L + i * cw + cw / 2; const lab = new Date(`${d.k}-15`).toLocaleDateString("fr-FR", { month: "short" });
@@ -56,7 +56,7 @@ export default function Finances() {
           </svg>
           <div className="flex gap-4 text-xs text-muted"><span><span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-green" />Entrées</span><span><span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-gold" />Sorties</span></div>
         </div>
-        <div className="panel grid content-start gap-2.5"><div className="eyebrow">Répartition du mois</div>
+        <div className="panel grid content-start gap-2.5"><div className="intertitre">Répartition du mois</div>
           {Object.keys(cats).length ? Object.entries(cats).sort((a, b) => b[1].v - a[1].v).map(([k, c]) => (
             <div key={k} className="grid grid-cols-[minmax(0,130px)_minmax(0,1fr)_100px] items-center gap-2.5 text-sm">
               <span className="truncate">{k.split("|")[1]}</span>

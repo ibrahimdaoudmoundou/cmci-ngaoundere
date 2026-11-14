@@ -36,8 +36,8 @@ export default function VieEglise() {
             {JOURS.map((j, i) => {
               const items = hebdo.filter((p) => jourIdx(p) === i);
               return (
-                <div key={j} className={`grid content-start gap-2 rounded-xl border p-3 ${i === todayIdx ? "border-sun bg-gold-soft/40" : "border-line bg-surface"} ${items.length ? "" : "hidden lg:grid"}`}>
-                  <div className="flex items-center justify-between"><span className="text-xs font-bold uppercase tracking-wider text-muted">{V(j)}</span>{i === todayIdx && <span className="text-[0.65rem] font-bold uppercase text-gold">{L("aujourd'hui", "today")}</span>}</div>
+                <div key={j} className={`grid content-start gap-2 rounded-xl border p-3 ${i === todayIdx ? "border-accent bg-gold-soft/40" : "border-line bg-surface"} ${items.length ? "" : "hidden lg:grid"}`}>
+                  <div className="flex items-center justify-between"><span className="text-xs font-bold text-muted">{V(j)}</span>{i === todayIdx && <span className="text-[0.65rem] font-bold uppercase text-gold">{L("aujourd'hui", "today")}</span>}</div>
                   {items.length ? items.map((p) => (
                     <div key={p.id} className="grid gap-0.5 rounded-lg bg-surface-2 p-2.5">
                       <span className="font-mono text-xs text-gold">{p.heure}{p.heureFin ? ` – ${p.heureFin}` : ""}</span>
@@ -56,7 +56,7 @@ export default function VieEglise() {
       </section>
 
       <section className="grid gap-4">
-        <div><div className="eyebrow">{L("À venir", "Coming up")}</div><h2 className="h2 mt-1">{L("Événements et rendez-vous spéciaux", "Special events")}</h2></div>
+        <div><div className="intertitre">{L("À venir", "Coming up")}</div><h2 className="h2 mt-1">{L("Événements et rendez-vous spéciaux", "Special events")}</h2></div>
         {events.length ? (
           <div className="overflow-hidden rounded-xl border border-line bg-surface">
             {events.map((p) => (

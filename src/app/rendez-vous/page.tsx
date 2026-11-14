@@ -79,7 +79,7 @@ export default function RendezVous() {
           </div>
         </form>
         <aside className="panel grid gap-3">
-          <div className="eyebrow">{L("Comment ça se passe", "How it works")}</div>
+          <div className="intertitre">{L("Comment ça se passe", "How it works")}</div>
           <ol className="m-0 grid list-decimal gap-1.5 pl-5">
             <li>{L("Vous envoyez votre demande.", "You send your request.")}</li>
             <li>{L("Le secrétariat la transmet au pasteur ou au responsable.", "The office passes it to the pastor or leader.")}</li>

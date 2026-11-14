@@ -22,18 +22,17 @@ export default function ArticlePage() {
   );
   return (
     <main className="pb-6">
-      <header className="relative overflow-hidden bg-band text-band-ink">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        {a.image && <img src={a.image} alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" onError={(e) => (e.currentTarget.style.display = "none")} />}
-        <div className="page relative grid max-w-[820px] gap-4 pb-12 pt-10">
-          <Link href="/actualites" className="text-sm text-band-muted no-underline">← {L("Actualités", "News")}</Link>
-          <span className="w-fit rounded-full bg-sun px-2.5 py-1 text-[0.7rem] font-bold uppercase tracking-wider text-[#052D5C]">{a.type === "annonce" ? L("Annonce", "Announcement") : "Article"}</span>
-          <h1 className="text-[2rem] leading-tight sm:text-[2.8rem]">{tr(a, "titre")}</h1>
-          <p className="font-mono text-sm text-band-muted">{fmonth(a.date, locale)}{a.auteur ? ` · ${a.auteur}` : ""}</p>
+      <header className="page une-in grid max-w-[860px] gap-4 pt-8">
+        <Link href="/actualites" className="lien w-fit text-sm text-muted">← {L("Actualités", "News")}</Link>
+        <div className="rubrique grid gap-3">
+          <p className="text-[0.9rem] font-semibold text-accent">{a.type === "annonce" ? L("Annonce", "Announcement") : "Article"} <span className="font-normal tabular-nums text-muted">· {fmonth(a.date, locale)}{a.auteur ? ` · ${a.auteur}` : ""}</span></p>
+          <h1 className="text-[2.2rem] leading-[1.05] sm:text-[3.2rem]">{tr(a, "titre")}</h1>
         </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {a.image && <img src={a.image} alt="" className="mt-2 aspect-[16/9] w-full object-cover" onError={(e) => (e.currentTarget.style.display = "none")} />}
       </header>
-      <article className="page grid max-w-[820px] gap-5 py-10 text-[1.06rem] leading-[1.75]">
-        {tr(a, "resume") && <p className="font-display text-[1.3rem] leading-snug">{tr(a, "resume")}</p>}
+      <article className="page prose-read grid max-w-[860px] gap-5 py-10">
+        {tr(a, "resume") && <p className="font-display text-[1.45rem] leading-snug">{tr(a, "resume")}</p>}
         {paragraphs(tr(a, "contenu")).map((p, i) => <p key={i} className="whitespace-pre-line">{p}</p>)}
         {a.expire && <p className="text-sm text-muted">{L("Valable jusqu'au", "Valid until")} {fmonth(a.expire, locale)}.</p>}
       </article>

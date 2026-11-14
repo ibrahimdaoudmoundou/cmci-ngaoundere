@@ -29,26 +29,26 @@ export default function Tableau() {
         <div className="tile"><span className="text-sm text-muted">Valeur du patrimoine</span><span className="tile-v">{fcfa(patr)}</span><span className="text-xs text-muted">{num(biens.length)} biens inventoriés</span></div>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
-        <div className="panel grid content-start gap-3"><div className="eyebrow">Dernières demandes en attente</div>
+        <div className="panel grid content-start gap-3"><div className="intertitre">Dernières demandes en attente</div>
           {pend.length ? pend.slice(0, 6).map((d) => (
             <div key={d.id} className="flex items-center justify-between gap-3 border-b border-line pb-2.5 last:border-0">
               <div className="min-w-0"><strong className="font-semibold">{d.nom}</strong><div className="text-xs text-muted">{TYPES[d.type]} · {fshort(d.cree)}</div></div><StatutBadge statut={d.statut} />
             </div>)) : <p className="text-muted">Aucune demande en attente.</p>}
         </div>
-        <div className="panel grid content-start gap-3"><div className="eyebrow">Rendez-vous confirmés à venir</div>
+        <div className="panel grid content-start gap-3"><div className="intertitre">Rendez-vous confirmés à venir</div>
           {rdvs.length ? rdvs.map((r) => (
             <div key={r.id} className="flex justify-between gap-3 border-b border-line pb-2.5 last:border-0">
               <div className="min-w-0"><strong className="font-semibold">{r.nom}</strong> <span className="text-muted">· {r.motif}</span><div className="text-sm text-muted">{(r.avecNom || "").split(" — ")[0]} · {r.lieu}</div>{r.note && <div className="text-sm">{r.note}</div>}</div>
               <span className="whitespace-nowrap text-right font-mono text-sm">{fshort(r.date)}<br />{String(r.creneau).split(" ")[0]}</span>
             </div>)) : <p className="text-muted">Aucun rendez-vous confirmé pour les jours à venir.</p>}
         </div>
-        <div className="panel grid content-start gap-3"><div className="eyebrow">Membres actifs par centre</div>
+        <div className="panel grid content-start gap-3"><div className="intertitre">Membres actifs par centre</div>
           {Object.keys(byC).length ? Object.entries(byC).sort((a, b) => b[1] - a[1]).map(([c, n]) => (
             <div key={c} className="grid grid-cols-[120px_minmax(0,1fr)_40px] items-center gap-3 text-sm">
               <span className="truncate">{c}</span><div className="h-2.5 overflow-hidden rounded bg-surface-2"><div className="h-full rounded bg-green" style={{ width: `${(n / maxC) * 100}%` }} /></div><span className="text-right font-mono">{n}</span>
             </div>)) : <p className="text-muted">Aucun membre enregistré. Acceptez les inscriptions reçues ou ajoutez des membres.</p>}
         </div>
-        <div className="panel grid content-start gap-3"><div className="eyebrow">Librairie — stock faible</div>
+        <div className="panel grid content-start gap-3"><div className="intertitre">Librairie — stock faible</div>
           {low.length ? low.map((b) => (
             <div key={b.id} className="flex justify-between gap-3"><span>{b.titre}</span><span className={`badge ${Number(b.stock) > 0 ? "badge-warn" : "badge-bad"}`}>{Number(b.stock) > 0 ? `${num(b.stock)} restant(s)` : "Épuisé"}</span></div>
           )) : <p className="text-muted">Tous les livres ont un stock suffisant.</p>}
